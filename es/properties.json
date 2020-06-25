@@ -1,0 +1,35 @@
+{
+    "index": "example",
+    "user_id": "",
+    "password": "",
+    "query_dsl": {
+        "query":{
+           "bool":{
+              "must":[
+                 {
+                    "match":{
+                       "name.first":"James"
+                    }
+                 }
+              ],
+              "filter":[
+                 {
+                    "range":{
+                       "dob":{
+                          "gte":"2019-12-01T00:00:00Z",
+                          "lte":"2020-01-31T00:00:00Z"
+                       }
+                    }
+                 }
+              ]
+           }
+        }
+    },
+    "export": [
+        "email",
+        "dob",
+        "name.first",
+        "name.last",
+        "ac-number"
+    ]
+}

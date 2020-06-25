@@ -1,0 +1,77 @@
+// NoSQL document scheme
+curl -X PUT http://localhost:9200/person \
+-H 'Content-Type: application/json' \
+-d '{
+      "mappings": {
+        "dynamic": "strict",
+        "properties": {
+          "name": {"first": {"type": "text"}, "last": {"type": "text"}},
+          "email": {"type": "text"},
+          "dob": {"type": "date"},
+          "ac-number": {"type": "integer"}
+        }
+      }
+}'
+
+
+// Sample data insertion
+curl -X POST http://localhost:9200/person/_doc \
+-H 'Content-Type: application/json' \
+-d '{"name": "John", "email": "test2@example.org", "dob": "2019-12-12", "ac-number": 54321}'
+
+
+// Query command
+curl -X GET http://localhost:9200/person/_search \
+-H 'Content-Type: application/json' \
+-d '{
+   "query":{
+      "bool":{
+         "must":[
+            {
+               "match":{
+                  "name":"john"
+               }
+            }
+         ],
+         "filter":[
+            {
+               "range":{
+                  "dob":{
+                     "gte":"2019-12-01T00:00:00Z",
+                     "lte":"2020-01-31T00:00:00Z"
+                  }
+               }
+            }
+         ]
+      }
+   }
+}'
+
+
+// Query Example
+{
+   "query":{
+      "bool":{
+         "must":[
+            {
+               "match":{
+                  "name":"john"
+               }
+            }
+         ],
+         "filter":[
+            {
+               "range":{
+                  "dob":{
+                     "gte":"2019-12-01T00:00:00Z",
+                     "lte":"2020-01-31T00:00:00Z"
+                  }
+               }
+            }
+         ]
+      }
+   }
+}
+
+
+
